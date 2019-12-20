@@ -2,6 +2,7 @@
   <div class= "MainPage">
     <SideBar 
     :products="products"
+    @delite-items="deleteItem"
     />
   </div>
 </template>
@@ -20,6 +21,11 @@ export default {
         {brand:'Xiomi'},
         {brand:'GooglePixel'}
       ]
+    }
+  },
+  methods:{
+    deleteItem(index){
+      this.products.splice(index, 1);
     }
   }
 }
