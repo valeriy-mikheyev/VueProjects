@@ -2,9 +2,9 @@
   <div class="listCategor">
     <span  v-for="(product, index) in products"
           :key="product.brand"
-          :index="index"
+          
           >
-          <button @click ="deleteItem(index)">X</button>
+          <button @click ="$emit('delite-emit', index)">X</button>
         {{product.brand}}
     </span>
   </div>
@@ -16,9 +16,7 @@ export default {
     products: Array
   },
   methods:{
-    deleteItem(){
-     this.$emit('delite-emit', this.index)
-   }
+    
   }
 }
 </script>
