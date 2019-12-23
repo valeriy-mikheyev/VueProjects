@@ -3,6 +3,7 @@
     <SideBar 
     :products="products"
     @delite-items="deleteItem"
+    @create-category="createCategory"
     />
   </div>
 </template>
@@ -26,6 +27,9 @@ export default {
   methods:{
     deleteItem(index){
       this.products.splice(index, 1);
+    },
+    createCategory(newBrand){
+      this.products.push({brand:newBrand});
     }
   }
 }

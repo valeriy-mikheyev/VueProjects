@@ -4,20 +4,34 @@
       :products="products"
       @delite-emit="$emit('delite-items', $event)"
      />
-     <input type="text">
-     <button class="pushButton">Add</button>
+     <input  type="text" v-model="categoryText"  placeholder="Write ur category">
+     <button class="pushButton" @click="newCategory()">Add Category</button>
   </div>
 </template>
 
 <script>
 import CategoriesList from  './CategoriesList.vue'
 export default {
+  data(){
+    return{
+      categoryText: ''
+    };
+  },
   props:{
     products: Array
   },
   components :{
     CategoriesList
-  }
+  },
+  methods: {
+    newCategory(){
+      if(this.categoryText.length > 0){
+        const newCategory = this.categoryText
+        this.$emit('create-category', newCategory)
+      }
+    this.categoryText= '';
+    }
+  },
 }
 </script>
 
@@ -45,7 +59,7 @@ input[type="text"]:focus {
   border: 1px solid #000000
 }
 .pushButton{
-  width: 60px;
+  margin-top:5px;
   font-size: 15px;
   margin-left:5px;
   border: 1px solid #cccccc; 
