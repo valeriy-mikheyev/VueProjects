@@ -2,7 +2,7 @@
   <div class="listCategor">
     <span  v-for="(product, index) in products"
           :key="product.brand"
-          
+          @click ="$emit('show-category')"
           >
           <button @click ="$emit('delite-emit', index)">X</button>
         {{product.brand}}
