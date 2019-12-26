@@ -1,20 +1,16 @@
 <template>
-  <div class= "MainPage">
-    <header-list
-    @display-favorites="isActive"
-    />
+  <div class="MainPage">
     <div class="containerInner">
-    <SideBar 
-    :products="products"
-    @delite-items="deleteItem"
-    :product="product"
-    @create-category="createCategory"
-    />
-    <ProductContainer
-    :product="filtered"
-    
-    />
-    
+      <SideBar 
+        :category="category"
+        @delite-items="deleteItem"
+        @create-category="createCategory"
+        @filter-category="filterCategory($event)"
+        @display-favorites="setIsActive"
+      />
+      <ProductContainer
+        :product="filteredProducts"
+      />
     </div>
   </div>
 </template>
@@ -22,60 +18,77 @@
 <script>
 import SideBar from './SideBar.vue'
 import ProductContainer from './ProductContainer.vue'
-import HeaderList from './HeaderList.vue'
 export default {
-  props:{
-    active:Boolean
-  },
   components:{
     SideBar,
     ProductContainer,
-    HeaderList
   },
-    data: function(){
+  props:{
+    active:Boolean
+  },
+    data(){
       return{
-      products:[
-        {brand:'Iphone'},
-        {brand:'Samsung'},
-        {brand:'Xiomi'},
-        {brand:'GooglePixel'}
+      category:[
+        {brand:'Iphone', active:false},
+        {brand:'Samsung', active:false},
+        {brand:'Xiomi', active:false},
+        {brand:'GooglePixel', active:false}
       ],
       product:[
-        {title:'Iphone', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
-        {title:'Samsung', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: true},
-        {title:'Xiomi', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
-        {title:'GooglePixel', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
-        {title:'Iphone 11', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
-        {title:'Samsung S10', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
-        {title:'Xiomi miPro', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
-        {title:'GooglePixel 10', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: true}
+        {brand:'Iphone', title:'Iphone', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
+        {brand:'Samsung', title:'Samsung', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: true},
+        {brand:'Xiomi', title:'Xiomi', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
+        {brand:'GooglePixel', title:'GooglePixel', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
+        {brand:'Iphone', title:'Iphone 11', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
+        {brand:'Samsung', title:'Samsung S10', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
+        {brand:'Xiomi', title:'Xiomi miPro', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: false},
+        {brand:'GooglePixel', title:'GooglePixel 10', description:'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos fuga quasi suscipit', image:'https://via.placeholder.com/300x200' ,favorites: true}
       ],
-      isactive:false,
+      isActive:false,
+      brand: []
+    }
+  },
+  computed: {
+    filteredProducts() {
+      console.log('123')
+      const filteredByBrand = this.brand.length !== 0 ? 
+        this.product.filter(product =>  this.brand.includes(product.brand)) : this.product
+
+        const filterByFavorites = this.isActive ? 
+          filteredByBrand.filter(favorit => favorit.favorites === true ) : filteredByBrand 
+
+        return filterByFavorites;
+
     }
   },
   methods:{
     deleteItem(index){
-      this.products.splice(index, 1);
+      this.category.splice(index, 1);
     },
     createCategory(newBrand){
-      this.products.push({brand:newBrand});
+      this.category.push({brand:newBrand});
     },
-    isActive(){
+    setIsActive(){
+      this.isActive = !this.isActive
+    },
+    filterCategory(data){
+      // data - iphone
+      // this.brand = [iphone, xiamo]
+      // this.brand = []
+      // this.brand = [google, xiamo]
+      if(this.brand.includes(data)){
+        console.log(this.brand)
+        this.brand = this.brand.filter(function(value){
+          return value !== data
+        })
+        console.log(this.brand)
+      }else{
+        this.brand.push(data)
+      }
+
       // eslint-disable-next-line no-console
-      console.log(this.isactive)
-      this.isactive =!this.isactive
+      console.log(this.brand)
     }
-  },
-  computed:{
-          filtered: function(){
-            return this.product.filter(e =>{
-              if (this.isactive){
-                return e.favorites == true;
-              }else{
-                return this.product
-              }
-            })
-          }
   }
 }
 </script>

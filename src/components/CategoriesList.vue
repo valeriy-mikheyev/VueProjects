@@ -1,11 +1,14 @@
 <template>
   <div class="listCategor">
-    <span  v-for="(product, index) in products"
-          :key="product.brand"
-          @click ="$emit('show-category')"
-          >
-          <button @click ="$emit('delite-emit', index)">X</button>
-        {{product.brand}}
+    <span
+      v-for="(product, index) in category"
+      :key="product.brand"
+      :class="{'Active':product.active}"
+      @click="showCategory(product)" 
+    >
+      <button @click="$emit('delite-emit', index)">X</button>
+      {{ product.brand }}
+      
     </span>
   </div>
 </template>
@@ -13,23 +16,32 @@
 <script>
 export default {
   props:{
-    products: Array
-  },
+    category:{
+      type: Array,
+      default: ()=>{
+        return []
+      }
+    }
+    },
   methods:{
-    
+    showCategory(product){
+      this.$emit('show-category', product.brand );
+      product.active =!product.active;
+    }
   }
 }
 </script>
 
 <style >
   .listCategor{
-    background: #FFFBF2;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  span{
+  .listCategor span{
+    background: #FFFBF2;
+    cursor: pointer;
     position:relative;
     margin-bottom:5px;
     width: 80%;
@@ -48,5 +60,8 @@ export default {
   }
   span button:hover{
     background: red;
+  }
+  .listCategor .Active{
+    background: none;
   }
 </style>

@@ -1,15 +1,17 @@
 <template>
-    <ProductsPage />
+<div>
+    <header-list />
+    <router-view></router-view>
+</div>
 </template>
 
 <script>
 
-import ProductsPage from './components/ProductsPage.vue'
-
+import HeaderList from './components/HeaderList.vue'
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    ProductsPage
+    HeaderList
   }
 }
 </script>

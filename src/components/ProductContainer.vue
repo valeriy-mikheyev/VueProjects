@@ -1,7 +1,7 @@
 <template>
   <div class="ProductContainer">
     <ProductCard 
-    :product="product"
+      :product="product"
     />
   </div>
 </template>

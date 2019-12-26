@@ -1,27 +1,52 @@
 <template>
   <div class="CategoryList">
     <CategoriesList
-      :products="products"
+      :category="category"
       @delite-emit="$emit('delite-items', $event)"
-     />
-     <input  type="text" v-model="categoryText"  placeholder="Write ur category">
-     <button class="pushButton" @click="newCategory()">Add Category</button>
+      @show-category="$emit('filter-category', $event)"
+    />
+    <input
+      v-model="categoryText"
+      type="text"
+      placeholder="Write ur category"
+    >
+    <button
+      class="pushButton"
+      @click="newCategory()"
+    >
+      Add Category
+    </button>
+    <button 
+      class="Show"
+      @click="buttonEmit"
+    >
+      {{ btnText }}
+    </button>
   </div>
 </template>
 
 <script>
 import CategoriesList from  './CategoriesList.vue'
 export default {
-  data(){
-    return{
-      categoryText: ''
-    };
-  },
-  props:{
-    products: Array
-  },
   components :{
     CategoriesList
+  },
+  props:{
+    category: Array
+  },
+  data(){
+    return{
+      categoryText: '',
+      show: false,
+    };
+  },
+  computed: {
+    btnText: function() {
+      if(this.show) {
+        return 'Hide Favorites'
+      }
+      return 'Show Favorites' 
+    }
   },
   methods: {
     newCategory(){
@@ -30,7 +55,12 @@ export default {
         this.$emit('create-category', newCategory)
       }
     this.categoryText= '';
+    },
+    buttonEmit(){
+      this.$emit('display-favorites')
+      this.show = !this.show 
     }
+
   },
 }
 </script>
@@ -71,4 +101,13 @@ input[type="text"]:focus {
 button ,input:focus {
   outline: none;
 }
+.Show{
+    cursor: pointer;
+    font-size: 18px;
+    border:none;
+    border-radius:5px;
+    text-align: center;
+    height: 40px;
+    background-color: #ABABAB;
+  }
 </style>

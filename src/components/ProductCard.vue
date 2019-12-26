@@ -1,20 +1,29 @@
-<template >
+<template>
   <div class="CardInner">
-      <div class="CardItem" v-for="product in product"
-          :key="product.title">
-      <img :src=product.image alt="">
-      <h2>{{product.title}}</h2>
-      <span>{{product.description}} </span>
-      <label    class="favorite__heart"
-                :class="{'favorite__heart__selected':product.favorites}">
+    <div
+      v-for="products in product"
+      :key="products.title"
+      class="CardItem"
+    >
+      <img
+        :src="products.image"
+        alt=""
+      >
+      <h2>{{ products.title }}</h2>
+      <span>{{ products.description }} </span>
+      <label
+        class="favorite__heart"
+        :class="{'favorite__heart__selected':products.favorites}"
+      >
                 
-            <input
-                    class="favorite__checkbox"
-                    type="checkbox"
-                    v-model="product.favorites">
-            ❤ {{product.favorites}}
-        </label>
-      </div>
+        <input
+          v-model="products.favorites"
+          class="favorite__checkbox"
+          type="checkbox"
+        >
+        ❤ {{ products.favorites }}
+      </label>
+    </div>
   </div>
 </template>
 
